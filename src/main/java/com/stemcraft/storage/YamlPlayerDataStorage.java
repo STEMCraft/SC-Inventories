@@ -26,57 +26,37 @@ public class YamlPlayerDataStorage implements PlayerDataStorage {
         plugin = instance;
     }
 
-
+    /**
+     * Checks if a players state exists in storage
+     *
+     * @param player   The player to load.
+     * @param world    The world to load.
+     * @param gameMode The game mode to load.
+     * @return If the player inventory exists in storage.
+     */
     @Override
-    public void save(PlayerState profile) {
-        File playerFile = new File(plugin.getDataFolder() + "/worlds/" + profile.getWorld().getName(), profile.getPlayer().getUniqueId() + ".yml");
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
+    public boolean exists(Player player, World world, GameMode gameMode) {
+        String worldName = world.getName().toLowerCase();
+        String gameModeName = gameMode.name().toLowerCase();
 
-        String gameModeName = profile.getGameMode().name().toLowerCase();
+        File playerFile = new File(plugin.getDataFolder() + "/worlds/" + worldName, player.getUniqueId() + ".yml");
+        if(playerFile.exists()) {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
 
-        // Save inventory
-        for (int i = 0; i < profile.getInventory().length; i++) {
-            config.set(gameModeName + ".inventory." + i, profile.getInventory()[i]);
+            return config.isConfigurationSection(gameModeName + ".inventory");
         }
 
-        // Save ender chest
-        for (int i = 0; i < profile.getEnderChest().length; i++) {
-            config.set(gameModeName + ".ender_chest." + i, profile.getEnderChest()[i]);
-        }
-
-        // Save potion effects
-        for (int i = 0; i < profile.getEffects().size(); i++) {
-            PotionEffect effect = profile.getEffects().get(i);
-            String path = gameModeName + ".effects." + i;
-            config.set(path + ".type", effect.getType().getKey().value());
-            config.set(path + ".duration", effect.getDuration());
-            config.set(path + ".amplifier", effect.getAmplifier());
-            config.set(path + ".ambient", effect.isAmbient());
-            config.set(path + ".particles", effect.hasParticles());
-            config.set(path + ".icon", effect.hasIcon());
-        }
-
-        // Save other properties
-        config.set(gameModeName + ".selected_slot", profile.getSelectedSlot());
-        config.set(gameModeName + ".xp", profile.getExp());
-        config.set(gameModeName + ".xp_level", profile.getLevel());
-        config.set(gameModeName + ".air", profile.getRemainingAir());
-        config.set(gameModeName + ".air_max", profile.getMaximumAir());
-        config.set(gameModeName + ".fire", profile.getFireTicks());
-        config.set(gameModeName + ".fall_distance", profile.getFallDistance());
-        config.set(gameModeName + ".health", profile.getHealth());
-        config.set(gameModeName + ".xp_total", profile.getTotalExperience());
-        config.set(gameModeName + ".starvation", profile.getStarvationRate());
-        config.set(gameModeName + ".saturation", profile.getSaturation());
-        config.set(gameModeName + ".absorption", profile.getAbsorptionAmount());
-
-        try {
-            config.save(playerFile);
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Failed to save inventory for player " + profile.getPlayer().getUniqueId(), e);
-        }
+        return false;
     }
 
+    /**
+     * Load player state from storage.
+     *
+     * @param player   The player to load.
+     * @param world    The world to load.
+     * @param gameMode The game mode to load.
+     * @return The player state or null.
+     */
     @Override
     public PlayerState load(Player player, World world, GameMode gameMode) {
         PlayerState state = new PlayerState();
@@ -157,18 +137,58 @@ public class YamlPlayerDataStorage implements PlayerDataStorage {
         return state;
     }
 
+    /**
+     * Save a player state to storage.
+     *
+     * @param state   The player state to save
+     */
     @Override
-    public boolean exists(Player player, World world, GameMode gameMode) {
-        String worldName = world.getName().toLowerCase();
-        String gameModeName = gameMode.name().toLowerCase();
+    public void save(PlayerState state) {
+        File playerFile = new File(plugin.getDataFolder() + "/worlds/" + state.getWorld().getName(), state.getPlayer().getUniqueId() + ".yml");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
 
-        File playerFile = new File(plugin.getDataFolder() + "/worlds/" + worldName, player.getUniqueId() + ".yml");
-        if(playerFile.exists()) {
-            YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
+        String gameModeName = state.getGameMode().name().toLowerCase();
 
-            return config.isConfigurationSection(gameModeName + ".inventory");
+        // Save inventory
+        for (int i = 0; i < state.getInventory().length; i++) {
+            config.set(gameModeName + ".inventory." + i, state.getInventory()[i]);
         }
 
-        return false;
+        // Save ender chest
+        for (int i = 0; i < state.getEnderChest().length; i++) {
+            config.set(gameModeName + ".ender_chest." + i, state.getEnderChest()[i]);
+        }
+
+        // Save potion effects
+        for (int i = 0; i < state.getEffects().size(); i++) {
+            PotionEffect effect = state.getEffects().get(i);
+            String path = gameModeName + ".effects." + i;
+            config.set(path + ".type", effect.getType().getKey().value());
+            config.set(path + ".duration", effect.getDuration());
+            config.set(path + ".amplifier", effect.getAmplifier());
+            config.set(path + ".ambient", effect.isAmbient());
+            config.set(path + ".particles", effect.hasParticles());
+            config.set(path + ".icon", effect.hasIcon());
+        }
+
+        // Save other properties
+        config.set(gameModeName + ".selected_slot", state.getSelectedSlot());
+        config.set(gameModeName + ".xp", state.getExp());
+        config.set(gameModeName + ".xp_level", state.getLevel());
+        config.set(gameModeName + ".air", state.getRemainingAir());
+        config.set(gameModeName + ".air_max", state.getMaximumAir());
+        config.set(gameModeName + ".fire", state.getFireTicks());
+        config.set(gameModeName + ".fall_distance", state.getFallDistance());
+        config.set(gameModeName + ".health", state.getHealth());
+        config.set(gameModeName + ".xp_total", state.getTotalExperience());
+        config.set(gameModeName + ".starvation", state.getStarvationRate());
+        config.set(gameModeName + ".saturation", state.getSaturation());
+        config.set(gameModeName + ".absorption", state.getAbsorptionAmount());
+
+        try {
+            config.save(playerFile);
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to save inventory for player " + state.getPlayer().getUniqueId(), e);
+        }
     }
 }

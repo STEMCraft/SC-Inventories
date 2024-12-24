@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A player state which contains all the details on a player at a particular point in time
+ */
 @Getter @Setter
 public class PlayerState {
     private Player player;
@@ -35,13 +38,17 @@ public class PlayerState {
     private double absorptionAmount = 0;
 
     public PlayerState() {
-
+        // empty
     }
 
     public PlayerState(Player player) {
         get(player);
     }
 
+    /**
+     * Reset the player state (takes affect immediately)
+     * @param player The player to reset
+     */
     static public void reset(Player player) {
         player.getInventory().clear();
         player.getEnderChest().clear();
@@ -60,10 +67,20 @@ public class PlayerState {
         }
     }
 
+    /**
+     * Set this player state to a players current state
+     * @param player The player to retrieve
+     */
     public void get(Player player) {
         get(player, player.getWorld(), player.getGameMode());
     }
 
+    /**
+     * Set this player state to a players current state
+     * @param player The player to retrieve
+     * @param world The world to allocate the state
+     * @param gameMode The game mode to allocate the state
+     */
     public void get(Player player, World world, GameMode gameMode) {
         this.player = player;
         this.world = world;
@@ -85,6 +102,9 @@ public class PlayerState {
         absorptionAmount = player.getAbsorptionAmount();
     }
 
+    /**
+     * Set the player to this current state
+     */
     public void set() {
         player.getInventory().clear();
         player.getEnderChest().clear();

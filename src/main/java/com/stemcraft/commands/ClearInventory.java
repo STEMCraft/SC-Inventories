@@ -31,7 +31,7 @@ public class ClearInventory extends STEMCraftCommand {
         if (!args.isEmpty()) {
             target = Bukkit.getServer().getPlayerExact(args.getFirst());
             if (target == null) {
-                message(sender, "The player {player} was not found", "player", args.getFirst());
+                message(sender, "The player {player} was not found or online", "player", args.getFirst());
                 return;
             }
         } else {

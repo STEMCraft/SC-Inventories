@@ -19,14 +19,17 @@ public class Inventories extends STEMCraftPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
+
         instance = this;
+
+        // Currently this plugin only supports YAML storage
         storage = new YamlPlayerDataStorage(instance);
 
         registerEvents(new PlayerWorldChangeListener(instance));
         registerEvents(new PlayerGameModeChangeListener(instance));
         registerEvents(new PlayerQuitListener(instance));
 
-        registerCommand(new ClearInventory(instance), "clearinventory");
+        registerCommand(new ClearInventory(instance));
     }
 
     public Inventories getInstance() {
@@ -34,31 +37,15 @@ public class Inventories extends STEMCraftPlugin {
     }
 
     /**
-     * Are worlds in the same dimension?
-     *
-     * @param worldA World A to test
-     * @param worldB World B to test
-     * @return If both world names are in the same group of worlds
+     * Save a player state to storage
+     * @param player The player to save
      */
-    public boolean worldsInSameDimension(World worldA, World worldB) {
-        String worldAName = worldA.getName().toLowerCase();
-        String worldBName = worldB.getName().toLowerCase();
-
-        if (worldAName.equals(worldBName)) {
-            return true;
-        }
-
-        return worldAName.replace("_nether", "").replace("_the_end", "").equals(
-                worldBName.replace("_nether", "").replace("_the_end", "")
-        );
-    }
-
     public void savePlayerState(Player player) {
         savePlayerState(player, player.getWorld(), player.getGameMode());
     }
 
     /**
-     * Save a player profile from disk.
+     * Save a player state to storage.
      *
      * @param player   The player to save
      * @param world    The world to save
@@ -70,7 +57,7 @@ public class Inventories extends STEMCraftPlugin {
     }
 
     /**
-     * Load player profile from disk.
+     * Load player state from storage.
      *
      * @param player   The player to load.
      * @param world    The world to load.
@@ -82,12 +69,12 @@ public class Inventories extends STEMCraftPlugin {
     }
 
     /**
-     * Checks if a players inventory exists
+     * Checks if a players state exists in storage
      *
      * @param player   The player to load.
      * @param world    The world to load.
      * @param gameMode The game mode to load.
-     * @return If the player inventory exists on disk.
+     * @return If the player inventory exists in storage.
      */
     public boolean playerStateExists(Player player, World world, GameMode gameMode) {
         return storage.exists(player, world, gameMode);
