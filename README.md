@@ -10,9 +10,31 @@ This plugin enables separate inventories for different worlds and game modes on 
 - **More Than Inventories**: When switching inventories, the complete players profile is switched including health, hunger, effects, etc.
 - **Stored As YAML**: Data is stored in the YAML format to use the built-in server serialization methods and should limit issues with future versions.
 
+## Commands
+
+### /clearinventory
+The /clearinventory command removes all items from a player's inventory, including their hotbar, main inventory, and armor slots.
+
+#### Usage
+/clearinventory [player]
+
+#### Arguments
+player (optional): The name of the player whose inventory you want to clear. If not specified, it clears your own inventory.
+
+#### Behavior
+- If no player is specified, the command clears the inventory of the player who executed it.
+- When run from the console, a player name must be provided.
+
+#### Permission
+Requires the `stemcraft.inventory.clear` permission to use this command.
+
+> [!CAUTION]
+> Use this command with caution, as it permanently removes all items from the specified player's inventory without any way to undo the action
+
+
 ## Data Storage
 
-Player data is stored in YAML files in /worlds/<world-name>/<player-uuid>.yml in a serialized format.
+Player data is stored in YAML files in /worlds/\<world-name\>/\<player-uuid\>.yml in a serialized format.
 
 While this can be modified using a text editor, it is not recommended as it could break the players inventory restoration.
 
