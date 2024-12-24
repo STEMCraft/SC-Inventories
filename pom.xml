@@ -59,6 +59,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>stemcraft-lib</id>
+            <url>https://maven.pkg.github.com/STEMCraft/STEMCraftLib</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -72,6 +76,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.stemcraft</groupId>
+            <artifactId>stemcraft-lib</artifactId>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

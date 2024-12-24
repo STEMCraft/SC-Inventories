@@ -1,5 +1,7 @@
 package com.stemcraft;
 
+import com.stemcraft.commands.ClearInventory;
+import com.stemcraft.common.STEMCraftPlugin;
 import com.stemcraft.listeners.PlayerGameModeChangeListener;
 import com.stemcraft.listeners.PlayerQuitListener;
 import com.stemcraft.listeners.PlayerWorldChangeListener;
@@ -8,22 +10,23 @@ import com.stemcraft.storage.YamlPlayerDataStorage;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class Inventories extends JavaPlugin implements Listener {
+public class Inventories extends STEMCraftPlugin {
     private static Inventories instance;
     private PlayerDataStorage storage;
 
     @Override
     public void onEnable() {
+        super.onEnable();
         instance = this;
         storage = new YamlPlayerDataStorage(instance);
 
-        getServer().getPluginManager().registerEvents(new PlayerWorldChangeListener(instance), this);
-        getServer().getPluginManager().registerEvents(new PlayerGameModeChangeListener(instance), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(instance), this);
+        registerEvents(new PlayerWorldChangeListener(instance));
+        registerEvents(new PlayerGameModeChangeListener(instance));
+        registerEvents(new PlayerQuitListener(instance));
+
+        registerCommand(new ClearInventory(instance), "clearinventory");
     }
 
     public Inventories getInstance() {

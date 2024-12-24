@@ -2,3 +2,4 @@ name: SC-Inventories
 version: '1.0'
 main: com.stemcraft.Inventories
 api-version: '1.21'
+depend: [STEMCraftLib]
