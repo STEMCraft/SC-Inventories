@@ -22,7 +22,7 @@ public class PlayerWorldChangeListener implements Listener {
         World toWorld = player.getWorld();
         GameMode gameMode = player.getGameMode();
 
-        if (!plugin.getSTEMCraftLib().worldsPartOfSameRealm(fromWorld, toWorld)) {
+        if (!plugin.getSTEMCraftLib().worldsInSameRealm(fromWorld, toWorld)) {
             plugin.savePlayerState(player, fromWorld, gameMode);
             plugin.loadPlayerState(player, toWorld, gameMode);
         }
