@@ -61,8 +61,8 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>stemcraft-lib</id>
-            <url>https://maven.pkg.github.com/STEMCraft/STEMCraftLib</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -80,9 +80,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.stemcraft</groupId>
-            <artifactId>stemcraft-lib</artifactId>
-            <version>1.0</version>
+            <groupId>com.github.STEMCraft</groupId>
+            <artifactId>STEMCraftLib</artifactId>
+            <version>main-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
