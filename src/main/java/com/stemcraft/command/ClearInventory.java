@@ -1,7 +1,6 @@
-package com.stemcraft.commands;
+package com.stemcraft.command;
 
-import com.stemcraft.Inventories;
-import com.stemcraft.common.STEMCraftCommand;
+import com.stemcraft.STEMCraftCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,20 +9,15 @@ import java.util.List;
 
 public class ClearInventory extends STEMCraftCommand {
 
-    public ClearInventory(Inventories instance) {
-        alias("clearinv");
-        tabComplete("{player}");
-    }
-
     @Override
     public void execute(CommandSender sender, String command, List<String> args) {
         if (!sender.hasPermission("stemcraft.inventory.clear")) {
-            message(sender, "You do not have permission to use this command");
+            error(sender, "You do not have permission to use this command");
             return;
         }
 
         if (args.isEmpty() && !(sender instanceof Player)) {
-            message(sender, "A player name is required when using this command from the console");
+            error(sender, "A player name is required when using this command from the console");
             return;
         }
 
@@ -31,7 +25,7 @@ public class ClearInventory extends STEMCraftCommand {
         if (!args.isEmpty()) {
             target = Bukkit.getServer().getPlayerExact(args.getFirst());
             if (target == null) {
-                message(sender, "The player {player} was not found or online", "player", args.getFirst());
+                error(sender, "The player {player} was not found or online", "player", args.getFirst());
                 return;
             }
         } else {
@@ -39,6 +33,6 @@ public class ClearInventory extends STEMCraftCommand {
         }
 
         target.getInventory().clear();
-        message(sender, "Cleared the inventory of {player}", "player", target.getName());
+        success(sender, "Cleared the inventory of {player}", "player", target.getName());
     }
 }

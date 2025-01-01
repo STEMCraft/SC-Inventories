@@ -1,4 +1,4 @@
-package com.stemcraft.listeners;
+package com.stemcraft.listener;
 
 import com.stemcraft.Inventories;
 import org.bukkit.GameMode;

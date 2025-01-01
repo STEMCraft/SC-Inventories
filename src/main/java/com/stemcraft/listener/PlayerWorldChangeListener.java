@@ -1,6 +1,7 @@
-package com.stemcraft.listeners;
+package com.stemcraft.listener;
 
 import com.stemcraft.Inventories;
+import com.stemcraft.util.SCWorld;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -22,10 +23,9 @@ public class PlayerWorldChangeListener implements Listener {
         World toWorld = player.getWorld();
         GameMode gameMode = player.getGameMode();
 
-        if (!plugin.getSTEMCraftLib().worldsInSameRealm(fromWorld, toWorld)) {
+        if (!SCWorld.sameRealm(fromWorld, toWorld)) {
             plugin.savePlayerState(player, fromWorld, gameMode);
             plugin.loadPlayerState(player, toWorld, gameMode);
         }
     }
-
 }

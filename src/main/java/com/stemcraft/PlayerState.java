@@ -27,8 +27,8 @@ public class PlayerState {
     private int selectedSlot = 1;
     private float exp = 0;
     private int level = 0;
-    private int remainingAir = 20;
-    private int maximumAir = 20;
+    private int remainingAir = 0;
+    private int maximumAir = 0;
     private int fireTicks = 0;
     private float fallDistance = 0;
     private double health = 20;
@@ -43,6 +43,10 @@ public class PlayerState {
 
     public PlayerState(Player player) {
         get(player);
+    }
+
+    public PlayerState(Player player, World world, GameMode gameMode) {
+        get(player, world, gameMode);
     }
 
     /**

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -189,6 +190,19 @@ public class YamlPlayerDataStorage implements PlayerDataStorage {
             config.save(playerFile);
         } catch (IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to save inventory for player " + state.getPlayer().getUniqueId(), e);
+        }
+    }
+
+    /**
+     * Delete any data from this world.
+     *
+     * @param worldName The world data to delete
+     */
+    public void delete(String worldName) {
+        try {
+            FileUtils.deleteDirectory(plugin.getDataFolder() + "/worlds/" + worldName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

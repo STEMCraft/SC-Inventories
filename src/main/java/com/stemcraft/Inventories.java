@@ -1,10 +1,9 @@
 package com.stemcraft;
 
-import com.stemcraft.commands.ClearInventory;
-import com.stemcraft.common.STEMCraftPlugin;
-import com.stemcraft.listeners.PlayerGameModeChangeListener;
-import com.stemcraft.listeners.PlayerQuitListener;
-import com.stemcraft.listeners.PlayerWorldChangeListener;
+import com.stemcraft.command.ClearInventory;
+import com.stemcraft.listener.PlayerGameModeChangeListener;
+import com.stemcraft.listener.PlayerQuitListener;
+import com.stemcraft.listener.PlayerWorldChangeListener;
 import com.stemcraft.storage.PlayerDataStorage;
 import com.stemcraft.storage.YamlPlayerDataStorage;
 import org.bukkit.GameMode;
@@ -29,7 +28,7 @@ public class Inventories extends STEMCraftPlugin {
         registerEvents(new PlayerGameModeChangeListener(instance));
         registerEvents(new PlayerQuitListener(instance));
 
-        registerCommand(new ClearInventory(instance));
+        registerCommand(new ClearInventory(), "clearinventory");
     }
 
     public Inventories getInstance() {
@@ -52,7 +51,7 @@ public class Inventories extends STEMCraftPlugin {
      * @param gameMode The player game mode to save
      */
     public void savePlayerState(Player player, World world, GameMode gameMode) {
-        PlayerState state = new PlayerState(player);
+        PlayerState state = new PlayerState(player, world, gameMode);
         storage.save(state);
     }
 

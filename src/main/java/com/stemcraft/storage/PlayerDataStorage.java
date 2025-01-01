@@ -33,4 +33,11 @@ public interface PlayerDataStorage {
      * @param state   The player state to save
      */
     void save(PlayerState state);
+
+    /**
+     * Delete any data from this world.
+     *
+     * @param worldName The world data to delete
+     */
+    void delete(String worldName);
 }
