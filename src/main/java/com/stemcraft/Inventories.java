@@ -1,11 +1,10 @@
 package com.stemcraft;
 
 import com.stemcraft.command.ClearInventory;
-import com.stemcraft.listener.PlayerGameModeChangeListener;
-import com.stemcraft.listener.PlayerQuitListener;
-import com.stemcraft.listener.PlayerWorldChangeListener;
+import com.stemcraft.listener.*;
 import com.stemcraft.storage.PlayerDataStorage;
 import com.stemcraft.storage.YamlPlayerDataStorage;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -27,8 +26,19 @@ public class Inventories extends STEMCraftPlugin {
         registerEvents(new PlayerWorldChangeListener(instance));
         registerEvents(new PlayerGameModeChangeListener(instance));
         registerEvents(new PlayerQuitListener(instance));
+        registerEvents(new WorldDeleteListener(instance));
+        registerEvents(new PlayerJoinListener(instance));
 
         registerCommand(new ClearInventory(), "clearinventory");
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            savePlayerState(player);
+        }
     }
 
     public Inventories getInstance() {
@@ -77,5 +87,14 @@ public class Inventories extends STEMCraftPlugin {
      */
     public boolean playerStateExists(Player player, World world, GameMode gameMode) {
         return storage.exists(player, world, gameMode);
+    }
+
+    /**
+     * Delete world data from config as world is deleted.
+     *
+     * @param worldName The world name.
+     */
+    public void deleteWorldData(String worldName) {
+        storage.delete(worldName);
     }
 }
