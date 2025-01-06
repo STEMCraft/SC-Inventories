@@ -28,12 +28,14 @@ public class Inventories extends STEMCraftPlugin {
 
         instance = this;
 
+        saveDefaultConfig();
+
         File configFile = new File(this.getDataFolder(), "config.yml");
         if(configFile.exists()) {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
             // Load shared inventory worlds
-            ConfigurationSection shared = config.getConfigurationSection("shared");
+            ConfigurationSection shared = config.getConfigurationSection("inventories.shared");
             if(shared != null) {
                 shared.getKeys(false).forEach(key -> {
                     List<String> worlds = shared.getStringList(key);
