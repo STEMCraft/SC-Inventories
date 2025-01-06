@@ -23,7 +23,7 @@ public class PlayerWorldChangeListener implements Listener {
         World toWorld = player.getWorld();
         GameMode gameMode = player.getGameMode();
 
-        if (!SCWorld.sameRealm(fromWorld, toWorld)) {
+        if (!plugin.areSharedWorlds(fromWorld.getName(), toWorld.getName()) && !SCWorld.sameRealm(fromWorld, toWorld)) {
             plugin.savePlayerState(player, fromWorld, gameMode);
             plugin.loadPlayerState(player, toWorld, gameMode);
         }
