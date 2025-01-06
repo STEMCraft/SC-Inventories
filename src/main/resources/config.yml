@@ -1,0 +1,13 @@
+inventories:
+  shared:
+    world:
+      - world
+      - world_nether
+      - world_the_end
+    survival_worlds:
+      - survival
+      - survival_nether
+      - survival_the_end
+      - survival_old
+      - survival_old_nether
+      - survival_old_the_end
